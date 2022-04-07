@@ -57,7 +57,12 @@ export const FileInput = (props: Props) => {
         ) : null
       }
     >
-      {inputProps => (
+      {/**
+       * NOTE: onFocus and onBlur props are excluded on purpose
+       * so that they do not get attached to FileInput's container
+       */}
+      {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
+      {({ onFocus, onBlur, ...inputProps }) => (
         <PicassoFileInput
           {...inputProps}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
