@@ -6,7 +6,7 @@
   "homepage": "https://github.com/toptal/picasso/tree/master/packages/picasso-shared#readme",
   "license": "MIT",
   "main": "index.js",
-  "module": "index.js",
+  "module": "./src/index.ts",
   "publishConfig": {
     "access": "public",
     "directory": "dist-package"

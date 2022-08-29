@@ -20,14 +20,14 @@ class Page extends Base {
     info = null,
     sectionFn = null,
     section = COMPONENTS_SECTION,
-    alwaysOnTop = false
+    alwaysOnTop = false,
   }) {
     super({
       title,
       subtitle,
       info,
       section,
-      sectionFn
+      sectionFn,
     })
 
     this.title = title
@@ -59,12 +59,12 @@ class Page extends Base {
   toStoryBook() {
     return {
       ...this.options,
-      chapters: this.collection.map(chapter => chapter.toStoryBook())
+      chapters: this.collection.map(chapter => chapter.toStoryBook()),
     }
   }
 
   generate() {
-    if (TEST_ENV === 'visual') {
+    if (import.meta.env.TEST_ENV === 'visual') {
       this.generateVisualStories()
     } else {
       this.generateHumanStories()

@@ -1,5 +1,8 @@
 const webpack = require('webpack')
 const path = require('path')
+const { mergeConfig } = require('vite')
+const react = require('@vitejs/plugin-react')
+const { default: tsconfigPaths } = require('vite-tsconfig-paths')
 const { IgnoreNotFoundPlugin } = require('./plugins')
 
 // example1: /packages/picasso/src/Button/Button.tsx
@@ -52,7 +55,12 @@ module.exports = {
     },
   },
   core: {
-    builder: 'webpack5',
+    builder: '@storybook/builder-vite',
+  },
+  async viteFinal(config) {
+    return mergeConfig(config, {
+      plugins: [react(), tsconfigPaths()],
+    })
   },
   webpackFinal: config => {
     config.module.rules.push({

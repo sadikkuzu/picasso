@@ -6,7 +6,7 @@ import React, {
   useState,
   useEffect,
   useLayoutEffect,
-  useCallback
+  useCallback,
 } from 'react'
 import debounce from 'debounce'
 import styled from 'styled-components'
@@ -28,7 +28,7 @@ const COPY_LINK_COPIED_TEXT = 'Copied!'
 const PRESETS = [['typescript', { allExtensions: true, isTSX: true }], 'es2015']
 
 const useStyles = makeStyles<Theme>(styles, {
-  name: 'PicassoCodeExample'
+  name: 'PicassoCodeExample',
 })
 
 interface Props extends BaseProps {
@@ -54,7 +54,7 @@ const imports: Record<string, object> = {
   '@topkit/analytics-charts/utils': require('@topkit/analytics-charts'),
   '@toptal/picasso/utils': require('@toptal/picasso/utils'),
   '@toptal/picasso/Icon': require('@toptal/picasso/Icon'),
-  '@toptal/picasso-provider': require('@toptal/picasso-provider')
+  '@toptal/picasso-provider': require('@toptal/picasso-provider'),
 }
 
 const resolver = (path: string) => imports[path]
@@ -107,7 +107,7 @@ const requireContext = require.context(
 
 const getOriginalSourceCode = ({
   src,
-  module
+  module,
 }: Pick<Props, 'src' | 'module'>) => {
   try {
     return requireContext(`./${module}/src/${src}`).default
@@ -164,7 +164,7 @@ const CodeExample = (props: Props) => {
   /* When we are building storybook for visual tests we want to have
    * only actual component without source code editor
    */
-  if (TEST_ENV === 'visual') {
+  if (import.meta.env.TEST_ENV === 'visual') {
     const renderInTestPicasso = (element: ReactNode) => (
       <Picasso loadFonts={false} fixViewport={false} loadFavicon={false}>
         <Purifier>{element}</Purifier>
@@ -175,12 +175,11 @@ const CodeExample = (props: Props) => {
       <div className={classes.componentRenderer}>
         <SourceRender
           babelConfig={{
-            presets: PRESETS
+            presets: PRESETS,
           }}
           wrap={renderInTestPicasso}
           resolver={resolver}
           source={sourceCode}
-          unstable_hot
         >
           {({ element }: RenderResult) => element}
         </SourceRender>
@@ -210,12 +209,11 @@ const CodeExample = (props: Props) => {
   return (
     <SourceRender
       babelConfig={{
-        presets: PRESETS
+        presets: PRESETS,
       }}
       wrap={renderInPicasso}
       resolver={resolver}
       source={sourceCode}
-      unstable_hot
     >
       {({ element, error }: RenderResult) => (
         <div className={classes.root}>
@@ -262,7 +260,7 @@ CodeExample.displayName = 'CodeExample'
 
 CodeExample.defaultProps = {
   showEditCode: true,
-  module: 'picasso'
+  module: 'picasso',
 }
 
 export default CodeExample

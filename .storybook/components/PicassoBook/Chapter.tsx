@@ -5,12 +5,12 @@ import React, { Fragment, ReactNode } from 'react'
 import DocumentationGenerator, {
   PropDocumentation,
   PropDocumentationMap,
-  Documentable
+  Documentable,
 } from '~/.storybook/utils/documentation-generator'
 import {
   generateUrl,
   getHost,
-  normalize
+  normalize,
 } from '../../../src/utils/url-generator'
 import { Typography } from '@toptal/picasso'
 
@@ -64,7 +64,7 @@ class Chapter extends Base {
   }
 
   addTextSection = (text: string, options: Record<string, string> = {}) => {
-    if (TEST_ENV === 'visual') {
+    if (import.meta.env.TEST_ENV === 'visual') {
       return this
     }
 
@@ -76,29 +76,29 @@ class Chapter extends Base {
       options: {
         decorator: (story: () => ReactNode) => (
           <div className='text-section-container'>{story()}</div>
-        )
-      }
+        ),
+      },
     })
 
     return this
   }
 
   addDocs = (documentation: PropDocumentation[]) => {
-    if (TEST_ENV === 'visual') {
+    if (import.meta.env.TEST_ENV === 'visual') {
       return this
     }
 
     const render = () => <PropsTable documentation={documentation} />
 
     this.createSection({
-      sectionFn: render
+      sectionFn: render,
     })
 
     return this
   }
 
   addComponentDocs = (componentDocumentation: ComponentDocumentation) => {
-    if (TEST_ENV === 'visual') {
+    if (import.meta.env.TEST_ENV === 'visual') {
       return this
     }
 
@@ -136,7 +136,7 @@ class Chapter extends Base {
     this.createSection({
       sectionFn: render,
       title: name,
-      subtitle: description
+      subtitle: description,
     })
 
     return this
@@ -146,7 +146,7 @@ class Chapter extends Base {
     const finalOptions: Options =
       typeof options === 'string'
         ? {
-            title: options
+            title: options,
           }
         : options
 
@@ -167,14 +167,17 @@ class Chapter extends Base {
       host: getHost(),
       kind: this.page.section,
       type: this.page.title,
-      section: anchor
+      section: anchor,
     })
 
     const render = () => (
       <Fragment>
         <div
           className='chapter-container'
-          style={{ display: TEST_ENV === 'visual' ? 'inline-block' : 'block' }}
+          style={{
+            display:
+              import.meta.env.TEST_ENV === 'visual' ? 'inline-block' : 'block',
+          }}
           id={anchor}
         >
           <CodeExample
@@ -191,7 +194,7 @@ class Chapter extends Base {
       sectionFn: render,
       ...finalOptions,
       subtitle: description,
-      info: extra
+      info: extra,
     })
 
     return this
@@ -200,7 +203,7 @@ class Chapter extends Base {
   toStoryBook() {
     return {
       ...this.options,
-      sections: this.collection.map(section => section.toStoryBook())
+      sections: this.collection.map(section => section.toStoryBook()),
     }
   }
 }

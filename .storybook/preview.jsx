@@ -11,7 +11,7 @@ export const parameters = {
   },
 }
 
-const loadFonts = TEST_ENV !== 'visual'
+const loadFonts = import.meta.env.TEST_ENV !== 'visual'
 const withPicasso = story => (
   <Picasso loadFonts={loadFonts} fixViewport={false} loadFavicon={false}>
     {story()}
