@@ -10,7 +10,7 @@ class PicassoBook extends Base {
 
     // initialize ENV vars to window
     window.PICASSO_BOOK = {
-      TEST_ENV: TEST_ENV
+      TEST_ENV: import.meta.env.TEST_ENV,
     }
 
     return this
@@ -41,7 +41,7 @@ in https://github.com/toptal/picasso/blob/dcc2b12a05ebec7cbce2cd591149d4f056762a
         const page = new Page({ title, section: name, sectionFn, alwaysOnTop })
         this.collection.push(page)
         return page
-      }
+      },
     }
   }
 

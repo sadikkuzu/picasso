@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const { mergeConfig } = require('vite')
-const react = require('@vitejs/plugin-react')
+// const react = require('@vitejs/plugin-react')
 const { default: tsconfigPaths } = require('vite-tsconfig-paths')
 const { IgnoreNotFoundPlugin } = require('./plugins')
 
@@ -59,7 +59,8 @@ module.exports = {
   },
   async viteFinal(config) {
     return mergeConfig(config, {
-      plugins: [react(), tsconfigPaths()],
+      plugins: [tsconfigPaths()],
+      // plugins: [react(), tsconfigPaths()],
     })
   },
   webpackFinal: config => {

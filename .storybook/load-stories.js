@@ -1,18 +1,22 @@
 import PicassoBook from './components/PicassoBook'
 
-/** Tutorials, Picasso readme and Contribution */
-const reqStorybook = require.context(
-  '~/.storybook/stories',
-  true,
-  /story\/index.(jsx|tsx)$/
-)
+const modulesStorybook = import.meta.glob('./stories/**/story/index.{jsx,tsx}')
+const modules = import.meta.glob('../packages/**/story/index.{jsx,tsx}')
+// console.log(modules)
 
-/** Stories from packages */
-const reqPackagesComponents = require.context(
-  '~/packages',
-  true,
-  /story\/index.(jsx|tsx)$/
-)
+// /** Tutorials, Picasso readme and Contribution */
+// const reqStorybook = require.context(
+//   '~/.storybook/stories',
+//   true,
+//   /story\/index.(jsx|tsx)$/
+// )
+//
+// /** Stories from packages */
+// const reqPackagesComponents = require.context(
+//   '~/packages',
+//   true,
+//   /story\/index.(jsx|tsx)$/
+// )
 
 PicassoBook.addSections([
   'Picasso',
@@ -25,12 +29,12 @@ PicassoBook.addSections([
   'Forms',
   'Picasso Forms',
   'Picasso Charts',
-  'Widgets'
+  'Widgets',
 ])
 
-reqStorybook.keys().forEach(filename => reqStorybook(filename))
-reqPackagesComponents
-  .keys()
-  .forEach(filename => reqPackagesComponents(filename))
+// reqStorybook.keys().forEach(filename => reqStorybook(filename))
+// reqPackagesComponents
+//   .keys()
+//   .forEach(filename => reqPackagesComponents(filename))
 
 PicassoBook.generate()

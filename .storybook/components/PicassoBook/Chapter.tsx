@@ -180,12 +180,7 @@ class Chapter extends Base {
           }}
           id={anchor}
         >
-          <CodeExample
-            src={source}
-            module={module}
-            permanentLink={permanentLink}
-            showEditCode={showEditCode}
-          />
+          <pre>Code example here</pre>
         </div>
       </Fragment>
     )
