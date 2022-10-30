@@ -1,28 +1,30 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Container, Typography } from '@toptal/picasso'
-import { Form, createAutoSaveDecorator } from '@toptal/picasso-forms'
+import { Form, useFormAutoSave } from '@toptal/picasso-forms'
 
 const autoSaveSubscribedFields = ['autoSave-firstName']
 
+// the emulation of the api call
+const saveWithDelay = async () =>
+  new Promise(resolve => setTimeout(() => resolve('success'), 2000))
+
 const Example = () => {
-  const [autoSaveValues, setAutoSaveValues] = useState({
+  const [savedValues, setSavedValues] = useState({
     'autoSave-firstName': undefined,
     'autoSave-lastName': undefined,
     'autoSave-age': undefined,
   })
 
-  const handleFormValuesChange = useCallback((values: any) => {
-    setAutoSaveValues(values)
+  const handleFormValuesChange = useCallback(async (values: any) => {
+    await saveWithDelay()
+
+    setSavedValues(values)
   }, [])
 
-  const autoSaveDecorator = useMemo(
-    () =>
-      createAutoSaveDecorator({
-        subscribedFields: autoSaveSubscribedFields,
-        onFormValuesChange: handleFormValuesChange,
-      }),
-    [handleFormValuesChange]
-  )
+  const { autoSaveDecorator, saving } = useFormAutoSave({
+    subscripedFields: autoSaveSubscribedFields,
+    onFormValuesChange: handleFormValuesChange,
+  })
 
   return (
     <Form
@@ -50,13 +52,12 @@ const Example = () => {
             label="What's your age?"
             placeholder='e.g. 25'
           />
+          {saving && <Typography align='right'>Saving</Typography>}
         </Container>
-        <Container variant='grey' padded='medium'>
-          <Typography>
-            Values should be only updated after subscribed fields changes
-          </Typography>
+        <Container variant='grey' padded='medium' rounded>
+          <Typography>Auto-saved values:</Typography>
           <pre style={{ width: 500 }}>
-            {JSON.stringify(autoSaveValues, undefined, 2)}
+            {JSON.stringify(savedValues, undefined, 2)}
           </pre>
         </Container>
       </Container>

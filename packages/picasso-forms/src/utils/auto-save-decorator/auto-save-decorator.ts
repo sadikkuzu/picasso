@@ -25,7 +25,7 @@ interface Props<T extends AnyObject> {
   subscribedFields?: (keyof T)[]
 }
 
-let oldValues: AnyObject = {}
+let oldValues: AnyObject | undefined
 
 const createAutoSaveDecorator = <T extends AnyObject>({
   onFormValuesChange,
@@ -33,13 +33,16 @@ const createAutoSaveDecorator = <T extends AnyObject>({
 }: Props<T>) => {
   return (form: FormApi<T>) => {
     const unsubscribe = form.subscribe(
-      nextState => {
-        if (
-          !isValuesEqual(nextState.values, oldValues as T, subscribedFields)
+      ({ values: newValues }) => {
+        if (!oldValues) {
+          // to avoid calling onFormValuesChange on the first render with initial values
+          oldValues = newValues
+        } else if (
+          !isValuesEqual(newValues, oldValues as T, subscribedFields)
         ) {
-          onFormValuesChange(nextState.values)
+          onFormValuesChange(newValues)
 
-          oldValues = nextState.values
+          oldValues = newValues
         }
       },
       { values: true }
